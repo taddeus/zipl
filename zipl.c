@@ -5,13 +5,13 @@
 #include <string.h>
 #include <alloca.h>
 
-#define DEFAULT_COLUMN_WIDTH 80
+#define DEFAULT_WIDTH 80
 #define SEPARATOR " "
 
 #define FORN(i, n) for (int i = 0, _l = (n); i < _l; i++)
 
 void usage(char **argv, int status) {
-    printf("usage: %s [-h] [-w WIDTH] [FILE]...\n", argv[0]);
+    printf("usage: %s [-h] [-w WIDTH=%d] [FILE]...\n", argv[0], DEFAULT_WIDTH);
     exit(status);
 }
 
@@ -61,7 +61,7 @@ void zipl(FILE **files, int nfiles, int width) {
 
 int main(int argc, char **argv) {
     FILE **files;
-    int width = DEFAULT_COLUMN_WIDTH, nfiles, opt;
+    int width = DEFAULT_WIDTH, nfiles, opt;
 
     while ((opt = getopt(argc, argv, "hw:")) != -1) {
         switch (opt) {
