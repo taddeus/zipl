@@ -60,7 +60,6 @@ void zipl(FILE **files, int nfiles, int width) {
 }
 
 int main(int argc, char **argv) {
-    FILE **files;
     int width = DEFAULT_WIDTH, nfiles, opt;
 
     while ((opt = getopt(argc, argv, "hw:")) != -1) {
@@ -79,9 +78,10 @@ int main(int argc, char **argv) {
     nfiles = argc - optind;
 
     if (nfiles == 0) {
-        *(files = alloca(sizeof (FILE*))) = stdin;
+        FILE *f = stdin;
+        zipl(&f, 1, width);
     } else {
-        files = alloca(nfiles * sizeof (FILE*));
+        FILE **files = alloca(nfiles * sizeof (FILE*));
 
         FORN(i, nfiles) {
             char *filename = argv[optind + i];
@@ -92,9 +92,9 @@ int main(int argc, char **argv) {
                 return -1;
             }
         }
-    }
 
-    zipl(files, nfiles, width);
+        zipl(files, nfiles, width);
+    }
 
     return 0;
 }
